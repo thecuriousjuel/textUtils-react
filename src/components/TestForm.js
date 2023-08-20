@@ -87,33 +87,52 @@ export default function TestForm(props)
         }
     }
 
-    const numberCountFunction = (stringValue) =>
+    const countFunction = (stringValue) =>
     {
-        let num = 0;
-        stringValue.split('').forEach((element) =>
+        stringValue += ' '
+        let countNumbers = 0;
+        let countWords = 0;
+
+        let word = '', char = '';
+
+        for (let i = 0; i < stringValue.length; i+=1)
         {
-            if (!isNaN(parseFloat(element)))
+            char = stringValue[i]
+            if (char !== ' ')
             {
-                num += 1;
+                word += char
+            
+                if (!isNaN(parseFloat(char)))
+                {
+                    countNumbers += 1;
+                } 
             }
-        });
-
-        return num;
+            else
+            {
+                if (word !== '')
+                {
+                    countWords += 1;
+                    word = '';
+                }
+            }
+        }
+        return [countNumbers, countWords]
     }
 
-    const [text, setText] = useState('');
+    const [text, setText] = useState();
 
-    let textLength = text.length;
-    let num = text.split(' ').length;
-    let minutesToRead = 0.008 * text.split(' ').length;
-    let numberCount = numberCountFunction(text);
+    let minutesToRead = 0;
+    let countTotalCharacters = 0
+    let countNumbers = 0;
+    let countWords = 0;
 
-    if (text === '')
+    if (text && text !== '')
     {
-        num = 0;
-        minutesToRead = 0;
+        [countNumbers, countWords] = countFunction(text);
+        countTotalCharacters = text.length;
+        minutesToRead = 0.008 * text.split(' ').length;
     }
-
+    
     return (
         <div className="container">
             <div className='container my-3'>
@@ -134,10 +153,10 @@ export default function TestForm(props)
             </div>
             <div className="container my-5">
                 <h3>Summary</h3>
-                <li>{num} Words</li>
-                <li>{textLength} Characters</li>
+                <li>{countWords} Words</li>
+                <li>{countTotalCharacters} Characters</li>
                 <li>{minutesToRead} Minutes to read</li>
-                <li>{numberCount} Numbers</li>
+                <li>{countNumbers} Numbers</li>
                 <h3>Preview</h3>
                 <p>{text || 'Enter Something to preview here!'}</p>
             </div>
