@@ -5,7 +5,7 @@ export default function Navbar(props)
 {
     return (
         <div>
-            <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+            <nav className={`navbar navbar-expand-lg navbar-${props.mode.text} bg-${props.mode.text}`}>
                 <div className="container-fluid">
                     <a className="navbar-brand" href="/">{props.title}</a>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -20,11 +20,16 @@ export default function Navbar(props)
                                 <a className="nav-link disabled" aria-current="page">{props.aboutText}</a>
                             </li>
                         </ul>
+                        <div className="form-check form-switch">
+                            <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" onClick={props.toggleMode} />
+                            <label className="form-check-label" htmlFor="flexSwitchCheckDefault" style={{ color: props.mode.color }}>{props.modebuttonText}</label>
+                        </div>
                         <form className="d-flex" role="search">
-                            <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+                            <input className={`form-control me-2 bg-${props.mode.text} text-${props.mode.color}`}  type="search" placeholder="Search" aria-label="Search" />
                             <button className="btn btn-success" type="submit">Search</button>
                         </form>
                     </div>
+
                 </div>
             </nav>
         </div>

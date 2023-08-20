@@ -72,13 +72,12 @@ export default function TestForm(props)
     let minutesToRead = 0.008 * text.split(' ').length;
     let numberCount = numberCountFunction(text);
 
-
     return (
         <div className="container">
             <div className='container my-3'>
                 <h1>{props.heading}</h1>
                 <div className="mb-3">
-                    <textarea className="form-control" value={text} onChange={handleOnChange} id="box" rows="8" placeholder='All empty here!'></textarea>
+                    <textarea className={`form-control text-${props.mode.color} bg-${props.mode.text}` } value={text} onChange={handleOnChange} id="box" rows="8" placeholder='All empty here!'></textarea>
                 </div>
                 <div className="container">
                     <div className="d-grid gap-2 d-md-block">
