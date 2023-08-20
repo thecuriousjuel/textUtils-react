@@ -3,52 +3,88 @@ import { useState } from 'react'
 
 export default function TestForm(props)
 {
-    const handleUpperClick = () =>
+    const checkForEmptyString = (anyText) =>
     {
-        // console.log('Clicked Upper');
-        setText(text.toUpperCase());
-    }
-
-    const handleLowerClick = () =>
-    {
-        // console.log('Clicked Lower');
-        setText(text.toLowerCase());
-    }
-
-    const handleTitleClick = () =>
-    {
-        // console.log('Clicked Lower');
-        let titleCase = '';
-        text.split(' ').forEach((word) =>
+        if (anyText === '')
         {
-            const capitalizeWord = word.charAt(0).toUpperCase() + word.slice(1);
-            titleCase += capitalizeWord + ' ';
-        });
-        setText(titleCase);
+            props.setAlertFunction('Please enter something', 'danger');
+            return false
+        }
+        return true
     }
 
     const handleOnChange = (event) =>
     {
         // console.log('Text Change');
-        setText(event.target.value)
+        setText(event.target.value);
     }
+
+    const handleUpperClick = () =>
+    {
+        // console.log('Clicked Upper');
+        if (checkForEmptyString(text))
+        {
+            setText(text.toUpperCase());
+            props.setAlertFunction('Changed to UpperCase', 'success');
+        }
+
+    }
+
+    const handleLowerClick = () =>
+    {
+        // console.log('Clicked Lower');
+        if (checkForEmptyString(text))
+        {
+            setText(text.toLowerCase());
+            props.setAlertFunction('Changed to LowerCase', 'success');
+        }
+    }
+
+    const handleTitleClick = () =>
+    {
+        // console.log('Clicked Lower');
+        if (checkForEmptyString(text))
+        {
+            let titleCase = '';
+            text.split(' ').forEach((word) =>
+            {
+                const capitalizeWord = word.charAt(0).toUpperCase() + word.slice(1);
+                titleCase += capitalizeWord + ' ';
+            });
+            setText(titleCase);
+            props.setAlertFunction('Changed to TitleCase', 'success');
+        }
+    }
+
 
     const handleClearText = () =>
     {
-        setText('');
+        if (checkForEmptyString(text))
+        {
+            setText('');
+            props.setAlertFunction('TextBox cleared', 'success');
+        }
     }
 
     const handleCopy = () =>
     {
-        let textInput = document.getElementById('box');
-        textInput.select();
-        navigator.clipboard.writeText(textInput.value);
+        if (checkForEmptyString(text))
+        {
+            let textInput = document.getElementById('box');
+            textInput.select();
+            navigator.clipboard.writeText(textInput.value);
+            props.setAlertFunction('Copied to clipboard', 'success');
+        }
     }
 
     const handleRemoveBlank = () =>
     {
-        let newText = text.split(/[ ]+/);
-        setText(newText.join(" "));
+        if (checkForEmptyString(text))
+        {
+            let newText = text.split(/[ ]+/);
+            setText(newText.join(" "));
+            props.setAlertFunction('Extra spaces removed', 'success');
+        }
     }
 
     const numberCountFunction = (stringValue) =>
@@ -61,7 +97,7 @@ export default function TestForm(props)
                 num += 1;
             }
         });
-        
+
         return num;
     }
 
@@ -72,12 +108,18 @@ export default function TestForm(props)
     let minutesToRead = 0.008 * text.split(' ').length;
     let numberCount = numberCountFunction(text);
 
+    if (text === '')
+    {
+        num = 0;
+        minutesToRead = 0;
+    }
+
     return (
         <div className="container">
             <div className='container my-3'>
                 <h1>{props.heading}</h1>
                 <div className="mb-3">
-                    <textarea className={`form-control text-${props.mode.color} bg-${props.mode.text}` } value={text} onChange={handleOnChange} id="box" rows="8" placeholder='All empty here!'></textarea>
+                    <textarea className={`form-control text-${props.mode.color} bg-${props.mode.text}`} value={text} onChange={handleOnChange} id="box" rows="8" placeholder='All empty here!'></textarea>
                 </div>
                 <div className="container">
                     <div className="d-grid gap-2 d-md-block">
@@ -97,7 +139,7 @@ export default function TestForm(props)
                 <li>{minutesToRead} Minutes to read</li>
                 <li>{numberCount} Numbers</li>
                 <h3>Preview</h3>
-                <p>{text}</p>
+                <p>{text || 'Enter Something to preview here!'}</p>
             </div>
         </div>
     )
