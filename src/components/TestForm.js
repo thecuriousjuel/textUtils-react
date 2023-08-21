@@ -27,7 +27,6 @@ export default function TestForm(props)
             setText(text.toUpperCase());
             props.setAlertFunction('Changed to UpperCase', 'success');
         }
-
     }
 
     const handleLowerClick = () =>
@@ -119,7 +118,7 @@ export default function TestForm(props)
         return [countNumbers, countWords]
     }
 
-    const [text, setText] = useState();
+    const [text, setText] = useState('');
 
     let minutesToRead = 0;
     let countTotalCharacters = 0
@@ -142,12 +141,12 @@ export default function TestForm(props)
                 </div>
                 <div className="container">
                     <div className="d-grid gap-2 d-md-block">
-                        <button className="btn btn-outline-primary mx-2" onClick={handleUpperClick}>{props.upperCase}</button>
-                        <button className="btn btn-outline-primary mx-2" onClick={handleLowerClick}>{props.lowerCase}</button>
-                        <button className="btn btn-outline-primary mx-2" onClick={handleTitleClick}>{props.titleCase}</button>
-                        <button className="btn btn-outline-primary mx-2" onClick={handleClearText}>{props.clear}</button>
-                        <button className="btn btn-outline-primary mx-2" onClick={handleCopy}>{props.copy}</button>
-                        <button className="btn btn-outline-primary mx-2 my-2" onClick={handleRemoveBlank}>{props.removeBlank}</button>
+                        <button className={`btn btn-outline-${props.mode.buttonColor} mx-2`} onClick={handleUpperClick}>{props.upperCase}</button>
+                        <button className={`btn btn-outline-${props.mode.buttonColor} mx-2`} onClick={handleLowerClick}>{props.lowerCase}</button>
+                        <button className={`btn btn-outline-${props.mode.buttonColor} mx-2`} onClick={handleTitleClick}>{props.titleCase}</button>
+                        <button className={`btn btn-outline-${props.mode.buttonColor} mx-2`} onClick={handleClearText}>{props.clear}</button>
+                        <button className={`btn btn-outline-${props.mode.buttonColor} mx-2`} onClick={handleCopy}>{props.copy}</button>
+                        <button className={`btn btn-outline-${props.mode.buttonColor} mx-2`} onClick={handleRemoveBlank}>{props.removeBlank}</button>
                     </div>
                 </div>
             </div>

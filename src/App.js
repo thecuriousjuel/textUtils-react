@@ -4,6 +4,14 @@ import About from './components/About';
 import Navbar from './components/Navbar';
 import TestForm from './components/TestForm';
 import Alert from './components/Alert';
+import
+{
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Link
+} from "react-router-dom";
+
 
 function App()
 {
@@ -12,6 +20,7 @@ function App()
       color: 'black',
       backgroundColor: 'white',
       text: 'light',
+      buttonColor: 'dark'
     });
 
   const [modebuttonText, setModebuttonText] = useState('Toggle Dark Mode');
@@ -37,9 +46,18 @@ function App()
         color: 'white',
         backgroundColor: 'black',
         text: 'dark',
+        buttonColor: 'light'
       });
       setModebuttonText('Toggle Light Mode');
       setAlertFunction('Dark mode enabled', 'success');
+
+      // setInterval(() => {
+      //   document.title = 'TextUtils is here!'
+      // }, 5000);
+
+      // setInterval(() => {
+      //   document.title = 'Install TextUtils now!'
+      // }, 2500);
     }
     else
     {
@@ -47,6 +65,7 @@ function App()
         color: 'black',
         backgroundColor: 'white',
         text: 'light',
+        buttonColor: 'dark'
       });
       setModebuttonText('Toggle Dark Mode');
       setAlertFunction('Light mode enabled', 'success');
@@ -54,15 +73,20 @@ function App()
   }
 
   return (
-    <div style={mode}>
-      <Navbar title="TextUtils" aboutText="About" mode={mode} modebuttonText={modebuttonText} toggleMode={toggleMode} />
+    <Router>
+      <div style={mode}>
 
-      <Alert alertMessage={alert} />
+        <Navbar title="TextUtils" aboutText="About" mode={mode} modebuttonText={modebuttonText} toggleMode={toggleMode} />
 
-      <TestForm heading="Enter Text to Analyze" upperCase="Upper Case" lowerCase="Lower Case" titleCase="Title Case" clear="Clear Text" details="All Details" copy="copy" removeBlank="Remove Blank Spaces" mode={mode} setAlertFunction={setAlertFunction} />
+        <Alert alertMessage={alert} />
 
-      <About mode={mode} />
-    </div>
+        <Routes>
+          <Route exact path="/" element={
+            <TestForm heading="Enter Text to Analyze" upperCase="Upper Case" lowerCase="Lower Case" titleCase="Title Case" clear="Clear Text" details="All Details" copy="copy" removeBlank="Remove Blank Spaces" mode={mode} setAlertFunction={setAlertFunction} />} />
+          <Route exact path="/about" element={<About mode={mode} />} />
+        </Routes>
+      </div>
+    </Router >
   );
 }
 
